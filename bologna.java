@@ -1,0 +1,138 @@
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.Servo.Direction;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.CRServo;
+import java.util.logging.Level;
+import com.qualcomm.robotcore.hardware.configuration.UnspecifiedMotor;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.Light;
+import com.qualcomm.robotcore.hardware.LightSensor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior;
+import com.qualcomm.hardware.bosch.BNO055IMU;
+
+
+@TeleOp(name="Bologna", group="Linear Opmode")
+
+public class Bologna extends LinearOpMode {
+    
+    private double deadband(double initialVal, double deadband) {
+        if ( (initialVal > deadband) || (initialVal < -deadband) ) {
+            return 0;
+        } else {
+            return initialVal;
+        }
+    } 
+    
+    private double fl;
+    private double bl;
+    private double fr;
+    private double br;
+    private double leftY;
+    private double leftX;
+    private double rightY;
+    private double rightX;
+    private boolean leftStick;
+    private boolean rightStick;
+    private boolean bothStick;
+    private static DcMotor frontLeft  = null;
+    private static DcMotor frontRight = null;
+    private static DcMotor backLeft  = null;
+    private static DcMotor backRight = null;
+
+    enum PowerLevel {MAX, HALF, QUARTER, STOP}; 
+    private Orientation angles;
+
+    // Declare OpMode members/constants.
+    private ElapsedTime runtime = new ElapsedTime();
+
+    private static double MOTOR_ADJUST = 0.60;
+    
+    private final long BILLION = 1000000000;
+    
+    private static double SIDEWAYS_DRIFT_CORRECTION = 1.0;
+    
+    @Override
+    public void runOpMode() {
+        
+        PowerLevel powerLevel = PowerLevel.MAX;     //Starts the robot wheels at MAX power level
+        
+        frontLeft  = hardwareMap.get(DcMotor.class, "frontLeft");
+        frontRight = hardwareMap.get(DcMotor.class, "frontRight");
+        backLeft  = hardwareMap.get(DcMotor.class, "backLeft");
+        backRight = hardwareMap.get(DcMotor.class, "backRight");
+                
+        telemetry.addData("Status", "Initialized");
+        telemetry.update();
+
+        frontLeft.setDirection(DcMotor.Direction.FORWARD);
+        frontRight.setDirection(DcMotor.Direction.REVERSE);
+        backLeft.setDirection(DcMotor.Direction.FORWARD);
+        backRight.setDirection(DcMotor.Direction.REVERSE);
+        
+         //Brake immedietly after joystick hits 0 instead of coasting down
+        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
+        //initIMU();
+            
+ 
+        // Wait for the game to start (driver presses PLAY)
+        waitForStart();
+//------------------------------------------------------------------- Start of Match ---------------------------------------------------
+        runtime.reset();
+
+        // Setup a variable for each drive wheel
+                    double leftUpperPower = 0;
+                    double rightUpperPower = 0;
+                    double leftLowerPower = 0;
+                    double rightLowerPower = 0;
+        
+        while (opModeIsActive()) {
+            
+    //Moving the Bot        
+        //Mecanum drive
+        
+            double r = Math.hypot(-gamepad1.left_stick_x, gamepad1.left_stick_y);
+            double robotAngle = Math.atan2(gamepad1.left_stick_y, -gamepad1.left_stick_x) - Math.PI / 4;
+            double rightX = -gamepad1.right_stick_x;
+            final double v1 = r * Math.cos(robotAngle) + rightX;
+            final double v2 = r * Math.sin(robotAngle) - rightX;
+            final double v3 = r * Math.sin(robotAngle) + rightX;
+            final double v4 = r * Math.cos(robotAngle) - rightX;
+
+            if(gamepad1.y) {
+                MOTOR_ADJUST *= .5;
+            } else if(gamepad1.a) {
+                MOTOR_ADJUST *= .2;
+            }
+            
+            leftUpper.setPower(v1*MOTOR_ADJUST);
+            rightLower.setPower(v2*MOTOR_ADJUST);
+            leftLower.setPower(v3*MOTOR_ADJUST);
+            rightUpper.setPower(v4*MOTOR_ADJUST);
+        telemetry.addData("Motor Power:", "(%.2f) (%.2f) (%.2f) (%.2f)", fl,fr,bl,br);
+        telemetry.update();
+        }
+    }
+    
+}
