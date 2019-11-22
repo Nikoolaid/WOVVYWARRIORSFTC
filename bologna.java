@@ -48,13 +48,21 @@ public class Bologna extends LinearOpMode {
     private double leftX;
     private double rightY;
     private double rightX;
+    private double myOpen = 100.0;
+    private double myClosed = 90.0;
+
     private boolean leftStick;
     private boolean rightStick;
     private boolean bothStick;
+    private boolean leftTriggerGo;
+    private boolean rightTriggerGo;
+
     private static DcMotor frontLeft  = null;
     private static DcMotor frontRight = null;
     private static DcMotor backLeft  = null;
     private static DcMotor backRight = null;
+    private Servo clawLeft = null;
+    private Servo clawRight = null;
 
     enum PowerLevel {MAX, HALF, QUARTER, STOP}; 
     private Orientation angles;
@@ -63,10 +71,6 @@ public class Bologna extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     private static double MOTOR_ADJUST = 0.60;
-    
-    private final long BILLION = 1000000000;
-    
-    private static double SIDEWAYS_DRIFT_CORRECTION = 1.0;
     
     @Override
     public void runOpMode() {
@@ -77,9 +81,12 @@ public class Bologna extends LinearOpMode {
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backLeft  = hardwareMap.get(DcMotor.class, "backLeft");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
+        clawLeft = hardwareMap.get(Servo.class, "clawLeft");
+        clawRight = hardwareMap.get(Servo.class, "clawRight");
                 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
+
 
         frontLeft.setDirection(DcMotor.Direction.FORWARD);
         frontRight.setDirection(DcMotor.Direction.REVERSE);
@@ -130,7 +137,28 @@ public class Bologna extends LinearOpMode {
             rightLower.setPower(v2*MOTOR_ADJUST);
             leftLower.setPower(v3*MOTOR_ADJUST);
             rightUpper.setPower(v4*MOTOR_ADJUST);
+
+    //Weapons Things
+        //Claw Controls
+            if(gamepad2.left_trigger > 0) {
+                leftTriggerGo = true;
+            }
+            if(gamepad2.right_trigger > 0) {
+                rightTriggerGo = true;
+            }
+
+            if (rightTriggerGo) {
+                clawLeft.setPosition(myOpen);
+                clawRight.setPosition(myOpen);
+            } else if (leftTriggerGo) {
+                clawRight.setPosition(myClosed);
+                clawLeft.setPosition(myClosed);
+            } else {
+                clawRight.setPosition(clawRight.getDirection);
+                clawLeft.setPosition(clawLeft.getDirection);
+            }
         telemetry.addData("Motor Power:", "(%.2f) (%.2f) (%.2f) (%.2f)", fl,fr,bl,br);
+        telemetry.addData("Predicted Motor Speed:");
         telemetry.update();
         }
     }
