@@ -148,13 +148,13 @@ public class Bologna extends LinearOpMode {
                 clawRight.setPosition(myClosed);
                 clawLeft.setPosition(myClosed);
             } else {
-                clawRight.setPosition(clawRight.getDirection);
-                clawLeft.setPosition(clawLeft.getDirection);
+                clawRight.setPosition(clawRight.getPosition);
+                clawLeft.setPosition(clawLeft.getPosition);
             }
             telemetry.addData("Motor Power:", "(%.2f) (%.2f) (%.2f) (%.2f)", fl, fr, bl, br);
             telemetry.addData("Predicted Motor Speed:", "(%.2f) (%.2f) (%.2f) (%.2f)" , v1 * MOTOR_ADJUST, v2 * MOTOR_ADJUST, v3 * MOTOR_ADJUST, v4 * MOTOR_ADJUST);
-            telemetry.addData("Claw Servo Degrees:", "(%.2f)", clawRight.getDirection);
-            telemetry.addData("Ticks moved :", "(%.2f)", )
+            telemetry.addData("Claw Servo Degrees:", "(%.2f)", clawRight.getCurrentPosition);
+            telemetry.addData("Ticks moved :", "(%.2f)", frontRight.getPosition());
             telemetry.update();
         }
     }
