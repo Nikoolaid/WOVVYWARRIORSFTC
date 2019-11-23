@@ -1,13 +1,13 @@
 
 
-@Autonomous (name = "Bartworst" group = "Linear Opmode")
+@Autonomous (name = "Bartworst", group = "Linear Opmode")
 public class Bartworst extends Bologna {
 
     double distanceDriven;
 
     @Override
     public void runOpMode() {
-        
+
     }
 
     public void setAll(double power) { //set all motors to same speed, enter speed

@@ -108,23 +108,6 @@ public class Bologna extends LinearOpMode {
                     double rightLowerPower = 0;
         
         while (opModeIsActive()) {
-            
-    //Moving the Bot        
-        //Mecanum drive
-          /*  double r = Math.hypot(-gamepad1.left_stick_x, gamepad1.left_stick_y);
-            double robotAngle = Math.atan2(gamepad1.left_stick_y, -gamepad1.left_stick_x) - Math.PI / 4;
-            double rightX = -gamepad1.right_stick_x;
-            final double v1 = r * Math.cos(robotAngle) + rightX;
-            final double v2 = r * Math.sin(robotAngle) - rightX;
-            final double v3 = r * Math.sin(robotAngle) + rightX;
-            final double v4 = r * Math.cos(robotAngle) - rightX;
-            
-            leftUpper.setPower(v1*MOTOR_ADJUST);
-            rightLower.setPower(v2*MOTOR_ADJUST);
-            leftLower.setPower(v3*MOTOR_ADJUST);
-            rightUpper.setPower(v4*MOTOR_ADJUST);
-        
-        */
         
             double r = Math.hypot(-gamepad1.left_stick_x, -gamepad1.left_stick_y);
             double robotAngle = Math.atan2(-gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
