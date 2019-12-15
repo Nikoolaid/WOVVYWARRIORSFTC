@@ -39,6 +39,13 @@ public class Bologna extends LinearOpMode {
         }
     }
 
+    public void setAll(double power) { //set all motors to same speed, enter speed
+        leftUpper.setPower(power);
+        rightLower.setPower(power);
+        leftLower.setPower(power);
+        rightUpper.setPower(power);
+    }
+
     protected double conversion; //CONVERSION NUMBER FROM TICKS>INCHES AND VICE VERSA, IMPORTANT !!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     private double fl;
