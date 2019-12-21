@@ -53,7 +53,6 @@ public class Bologna extends LinearOpMode {
     private double fr;
     private double br;
     private double leftY;
-    private double leftX;
     private double rightY;
     private double rightX;
     protected double myOpen = 100.0;
@@ -65,13 +64,7 @@ public class Bologna extends LinearOpMode {
     private boolean leftTriggerGo;
     private boolean rightTriggerGo;
 
-    protected static DcMotor frontLeft = null;
-    protected static DcMotor frontRight = null;
-    protected static DcMotor backLeft = null;
-    protected static DcMotor backRight = null;
-    protected static DcMotor elevatorMotor = null; 
-    protected Servo clawLeft = null;
-    protected Servo clawRight = null;
+    Robot robot = new Robot();
 
     // Declare OpMode members/constants.
     private ElapsedTime runtime = new ElapsedTime();
@@ -81,29 +74,10 @@ public class Bologna extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
-        frontRight = hardwareMap.get(DcMotor.class, "frontRight");
-        backLeft = hardwareMap.get(DcMotor.class, "backLeft");
-        backRight = hardwareMap.get(DcMotor.class, "backRight");
-        clawLeft = hardwareMap.get(Servo.class, "clawLeft");
-        clawRight = hardwareMap.get(Servo.class, "clawRight");
-        elevatorMotor = hardwareMap.get(DcMotor.class, "elevatorMotor");
+        robot.init(hardwareMap);
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-
-        frontLeft.setDirection(DcMotor.Direction.FORWARD);
-        frontRight.setDirection(DcMotor.Direction.REVERSE);
-        backLeft.setDirection(DcMotor.Direction.FORWARD);
-        backRight.setDirection(DcMotor.Direction.REVERSE);
-
-        // Brake immedietly after joystick hits 0 instead of coasting down
-        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        // initIMU();
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -132,10 +106,10 @@ public class Bologna extends LinearOpMode {
                 MOTOR_ADJUST = .6;
             }
 
-            frontLeft.setPower(v1*MOTOR_ADJUST);
-            backRight.setPower(v2*MOTOR_ADJUST);
-            backLeft.setPower(v3*MOTOR_ADJUST);
-            frontRight.setPower(v4*MOTOR_ADJUST);
+            robot.frontLeft.setPower(v1*MOTOR_ADJUST);
+            robot.backRight.setPower(v2*MOTOR_ADJUST);
+            robot.backLeft.setPower(v3*MOTOR_ADJUST);
+            robot.frontRight.setPower(v4*MOTOR_ADJUST);
 
             // Weapons Things
             // Claw Controls
@@ -146,7 +120,7 @@ public class Bologna extends LinearOpMode {
                 rightTriggerGo = true;
             }
 
-            elevatorMotor.setPower(deadband(gamepad2.right_stick_y , .03));
+            robot.elevatorMotor.setPower(deadband(gamepad2.right_stick_y , .03));
 
             if (rightTriggerGo) {
                 clawLeft.setPosition(myOpen);
@@ -155,13 +129,13 @@ public class Bologna extends LinearOpMode {
                 clawRight.setPosition(myClosed);
                 clawLeft.setPosition(myClosed);
             } else {
-                clawRight.setPosition(clawRight.getPosition);
-                clawLeft.setPosition(clawLeft.getPosition);
+                clawRight.setPosition(robot.clawRight.getPosition);
+                clawLeft.setPosition(robot.clawLeft.getPosition);
             }
             telemetry.addData("Motor Power:", "(%.2f) (%.2f) (%.2f) (%.2f)", fl, fr, bl, br);
             telemetry.addData("Predicted Motor Speed:", "(%.2f) (%.2f) (%.2f) (%.2f)" , v1 * MOTOR_ADJUST, v2 * MOTOR_ADJUST, v3 * MOTOR_ADJUST, v4 * MOTOR_ADJUST);
-            telemetry.addData("Claw Servo Degrees:", "(%.2f)", clawRight.getCurrentPosition);
-            telemetry.addData("Ticks moved :", "(%.2f)", frontRight.getPosition());
+            telemetry.addData("Claw Servo Degrees:", "(%.2f)", robot.clawRight.getCurrentPosition);
+            telemetry.addData("Ticks moved :", "(%.2f)", robot.frontRight.getPosition());
             telemetry.update();
         }
     }
