@@ -113,25 +113,25 @@ public class Bologna extends LinearOpMode {
 
             // Weapons Things
             // Claw Controls
+            //bumper open, trigger close
+            
+                leftBumperGo = gamepad2.left_bumper;
+            
             if (gamepad2.left_trigger > 0) {
                 leftTriggerGo = true;
-            }
-            if (gamepad2.right_trigger > 0) {
-                rightTriggerGo = true;
             }
 
             robot.elevatorMotor.setPower(deadband(gamepad2.right_stick_y , .03));
 
-            if (rightTriggerGo) {
-                clawLeft.setPosition(myOpen);
+            if (leftBumperGo) {
                 clawRight.setPosition(myOpen);
+                clawLeft.setPosition(myOpen);
             } else if (leftTriggerGo) {
                 clawRight.setPosition(myClosed);
                 clawLeft.setPosition(myClosed);
-            } else {
-                clawRight.setPosition(robot.clawRight.getPosition);
-                clawLeft.setPosition(robot.clawLeft.getPosition);
             }
+
+
             telemetry.addData("Motor Power:", "(%.2f) (%.2f) (%.2f) (%.2f)", fl, fr, bl, br);
             telemetry.addData("Predicted Motor Speed:", "(%.2f) (%.2f) (%.2f) (%.2f)" , v1 * MOTOR_ADJUST, v2 * MOTOR_ADJUST, v3 * MOTOR_ADJUST, v4 * MOTOR_ADJUST);
             telemetry.addData("Claw Servo Degrees:", "(%.2f)", robot.clawRight.getCurrentPosition);
