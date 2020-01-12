@@ -1,10 +1,6 @@
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.Servo.Direction;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 
 public class Robot {
@@ -18,6 +14,9 @@ public class Robot {
     public DcMotor intakeMotor = null;
     public Servo foundationMover = null; 
     public DcMotor armMotor = null;
+    public DcMotor intakeMotor = null;
+    public Servo foundation1 = null;
+    public Servo foundation2 = null;
 
     public void init(HardwareMap hardwareMap) {
 
@@ -31,6 +30,9 @@ public class Robot {
         intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
         foundationMover = hardwareMap.get(Servo.class, "foundationMover");
         armMotor = hardwareMap.get(DcMotor.class, "armMotor");
+        intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
+        foundation1 = hardwareMap.get(Servo.class, "foundation1");
+        foundation2 = hardwareMap.get(Servo.class, "foundation2");
 
         frontLeft.setDirection(DcMotor.Direction.FORWARD);
         frontRight.setDirection(DcMotor.Direction.REVERSE);

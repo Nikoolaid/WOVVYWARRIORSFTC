@@ -1,31 +1,6 @@
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.Servo.Direction;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.CRServo;
-import java.util.logging.Level;
-import com.qualcomm.robotcore.hardware.configuration.UnspecifiedMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.Range;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.Light;
-import com.qualcomm.robotcore.hardware.LightSensor;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
-import org.firstinspires.ftc.robotcore.external.navigation.Position;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.util.Range;
-import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior;
-import com.qualcomm.hardware.bosch.BNO055IMU;
 
 @TeleOp(name = "Bologna", group = "Linear Opmode")
 
@@ -121,15 +96,36 @@ public class Bologna extends LinearOpMode {
                 leftTriggerGo = true;
             }
 
-            robot.elevatorMotor.setPower(deadband(gamepad2.right_stick_y , .03));
-
             if (leftBumperGo) {
                 clawRight.setPosition(myOpen);
                 clawLeft.setPosition(myOpen);
             } else if (leftTriggerGo) {
                 clawRight.setPosition(myClosed);
                 clawLeft.setPosition(myClosed);
+            } else {
+                clawRight.setPosition(clawRight.getCurrentPosition()); //dunno if this is the right command
+                clawLeft.setPosition(clawLeft.getCurrentPosition())
             }
+
+            //elevator 
+            robot.elevatorMotor.setPower(deadband(gamepad2.right_stick_y , .03));
+
+            //intake
+            if (gamepad2.right_trigger > 0) {
+                intakeMotor.setSpeed(-.7);
+            } else if (gamepad2.right_bumper) {
+                intakeMotor.setSpeed(.7);
+            } else {
+                intakeMotor.setSpeed(0);
+            }
+
+            //foundation
+            if(gamepad2.dpad_up) {
+                //FINISH THIS !!!!!!!!!!!!!!!!
+            } else if (gamepad2.dpad_up) {
+
+            }
+
 
 
             telemetry.addData("Motor Power:", "(%.2f) (%.2f) (%.2f) (%.2f)", fl, fr, bl, br);
