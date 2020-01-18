@@ -9,14 +9,18 @@ public class Robot {
     public DcMotor backLeft = null;
     public DcMotor backRight = null;
     public DcMotor elevatorMotor = null; 
-    public Servo clawLeft = null;
-    public Servo clawRight = null;
+    // public Servo clawLeft = null;
+    // public Servo clawRight = null;
     public DcMotor intakeMotor = null;
-    public Servo foundationMover = null; 
-    public DcMotor armMotor = null;
-    public DcMotor intakeMotor = null;
-    public Servo foundation1 = null;
-    public Servo foundation2 = null;
+    //public DcMotor armMotor = null;
+    //public Servo foundation1 = null;
+    //public Servo foundation2 = null;
+
+    public double downPosition = 1.0; //foundation mover stuff!!!!1!!!!!!!!!
+    public double upPosition = 0.5;
+
+    public double clawOpen = 1.0;
+    public double clawClosed = 0.0
 
     public void init(HardwareMap hardwareMap) {
 
@@ -24,15 +28,14 @@ public class Robot {
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
-        clawLeft = hardwareMap.get(Servo.class, "clawLeft");
-        clawRight = hardwareMap.get(Servo.class, "clawRight");
+        // clawLeft = hardwareMap.get(Servo.class, "clawLeft");
+        // clawRight = hardwareMap.get(Servo.class, "clawRight");
         elevatorMotor = hardwareMap.get(DcMotor.class, "elevatorMotor");
         intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
-        foundationMover = hardwareMap.get(Servo.class, "foundationMover");
-        armMotor = hardwareMap.get(DcMotor.class, "armMotor");
+        //armMotor = hardwareMap.get(DcMotor.class, "armMotor");
         intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
-        foundation1 = hardwareMap.get(Servo.class, "foundation1");
-        foundation2 = hardwareMap.get(Servo.class, "foundation2");
+        //foundation1 = hardwareMap.get(Servo.class, "foundation1");
+        //foundation2 = hardwareMap.get(Servo.class, "foundation2");
 
         frontLeft.setDirection(DcMotor.Direction.FORWARD);
         frontRight.setDirection(DcMotor.Direction.REVERSE);

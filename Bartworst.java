@@ -28,9 +28,29 @@ public class Bartworst extends LinearOpMode {
         setAll(0);
     }
 
+    public void moveDownHook() {
+        foundation1.setPosition(downPosition);
+        foundation2.setPosition(downPosition);
+
+    public void moveUpHook() {
+        foundation1.setPosition(upPosition);
+        foundation2.setPosition(upPosition);
+    }
+
+    public void openClaw() {
+        clawLeft.setPosition(clawOpen);
+        clawRight.setPosition(clawOpen);
+    }
+
+    public void closeClaw() {
+        clawLeft.setPosition(clawClosed);
+        clawRight.setPosition(clawClosed);
+    }
+
+    //ehhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhs
     public void turn(double degrees) {
         if( degrees > 0 ) {
-            while()
+            frontRight.setPower()
 
         }
         robot.frontRight.setPower(.5);

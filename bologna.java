@@ -95,7 +95,8 @@ public class Bologna extends LinearOpMode {
             if (gamepad2.left_trigger > 0) {
                 leftTriggerGo = true;
             }
-
+            //claw !!!
+            /*
             if (leftBumperGo) {
                 clawRight.setPosition(myOpen);
                 clawLeft.setPosition(myOpen);
@@ -105,7 +106,7 @@ public class Bologna extends LinearOpMode {
             } else {
                 clawRight.setPosition(clawRight.getCurrentPosition()); //dunno if this is the right command
                 clawLeft.setPosition(clawLeft.getCurrentPosition())
-            }
+            } */
 
             //elevator 
             robot.elevatorMotor.setPower(deadband(gamepad2.right_stick_y , .03));
@@ -120,11 +121,13 @@ public class Bologna extends LinearOpMode {
             }
 
             //foundation
+            /*
             if(gamepad2.dpad_up) {
                 //FINISH THIS !!!!!!!!!!!!!!!!
             } else if (gamepad2.dpad_up) {
 
             }
+            */
 
 
 
