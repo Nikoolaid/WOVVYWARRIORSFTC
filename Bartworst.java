@@ -1,3 +1,8 @@
+/* package org.firstinspires.ftc.teamcode;
+
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.robot.Robot;
 
 
 @Autonomous (name = "Bartworst", group = "Linear Opmode")
@@ -10,14 +15,18 @@ public class Bartworst extends LinearOpMode {
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
+        setAll(1.0);
+        Sleep(250);
+        setAll(0);
+        Sleep(1000000);
 
     }
 
     public void setAll(double power) { //set all motors to same speed, enter speed
-        robot.frontLeft.setPower(power);
-        robot.backRight.setPower(power);
-        robot.backLeft.setPower(power);
-        robot.frontRight.setPower(power);
+        frontLeft.setPower(power);
+        backRight.setPower(power);
+        backLeft.setPower(power);
+        frontRight.setPower(power);
     }
 
     public void driveUntil(double DISTANCE) {
@@ -31,6 +40,7 @@ public class Bartworst extends LinearOpMode {
     public void moveDownHook() {
         foundation1.setPosition(downPosition);
         foundation2.setPosition(downPosition);
+    }
 
     public void moveUpHook() {
         foundation1.setPosition(upPosition);
@@ -48,16 +58,17 @@ public class Bartworst extends LinearOpMode {
     }
 
     //ehhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhs
+    
     public void turn(double degrees) {
         if( degrees > 0 ) {
-            frontRight.setPower()
+            frontRight.setPower();
 
         }
         robot.frontRight.setPower(.5);
         robot.backRight.setPower(.5);
         robot.backLeft.setPower(-.5);
         robot.frontLeft.setPower(-.5);
-    }
+    } 
 
 
  //ticks = x * inches
@@ -72,3 +83,4 @@ public class Bartworst extends LinearOpMode {
 
     
 }
+*/

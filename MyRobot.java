@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.eventloop.EventLoopManager;
 
 
 @TeleOp(name = "MyRobot", group = "Linear Opmode")
@@ -20,13 +21,7 @@ public class MyRobot extends LinearOpMode {
         }
     }
 
-    public void setAll(double power) { //set all motors to same speed, enter speed
-        leftUpper.setPower(power);
-        rightLower.setPower(power);
-        leftLower.setPower(power);
-        rightUpper.setPower(power);
-    }
-
+    //MAKING VARIABLES
     protected double conversion; //CONVERSION NUMBER FROM TICKS>INCHES AND VICE VERSA, IMPORTANT !!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     private double fl;
@@ -45,7 +40,7 @@ public class MyRobot extends LinearOpMode {
     private boolean leftTriggerGo;
     private boolean rightTriggerGo;
 
-    Robot robot = new Robot();
+    MyRobot robot = new MyRobot();
 
     // Declare OpMode members/constants.
     private ElapsedTime runtime = new ElapsedTime();
@@ -56,19 +51,18 @@ public class MyRobot extends LinearOpMode {
     public DcMotor frontRight = null;
     public DcMotor backLeft = null;
     public DcMotor backRight = null;
+    /*
     public DcMotor elevatorMotor = null; 
-    // public Servo clawLeft = null;
-    // public Servo clawRight = null;
+    public Servo clawLeft = null;
+    public Servo clawRight = null;
     public DcMotor intakeMotor = null;
-    //public DcMotor armMotor = null;
-    //public Servo foundation1 = null;
-    //public Servo foundation2 = null;
-
-    public double downPosition = 1.0; //foundation mover stuff!!!!1!!!!!!!!!
-    public double upPosition = 0.5;
+    public DcMotor armMotor = null;
+    public Servo foundation1 = null;
+    public Servo foundation2 = null;
 
     public double clawOpen = 1.0;
     public double clawClosed = 0.0;
+    */
 
 
     public void init(HardwareMap hardwareMap) {
@@ -77,14 +71,13 @@ public class MyRobot extends LinearOpMode {
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
-        // clawLeft = hardwareMap.get(Servo.class, "clawLeft");
+        /* clawLeft = hardwareMap.get(Servo.class, "clawLeft");
         // clawRight = hardwareMap.get(Servo.class, "clawRight");
         elevatorMotor = hardwareMap.get(DcMotor.class, "elevatorMotor");
         intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
         //armMotor = hardwareMap.get(DcMotor.class, "armMotor");
         intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
-        //foundation1 = hardwareMap.get(Servo.class, "foundation1");
-        //foundation2 = hardwareMap.get(Servo.class, "foundation2");
+    */
 
         frontLeft.setDirection(DcMotor.Direction.FORWARD);
         frontRight.setDirection(DcMotor.Direction.REVERSE);
@@ -96,7 +89,7 @@ public class MyRobot extends LinearOpMode {
         frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        elevatorMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //elevatorMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         
     }
     
@@ -142,58 +135,34 @@ public class MyRobot extends LinearOpMode {
             robot.backRight.setPower(v4*MOTOR_ADJUST);
 
             // Weapons Things
-            // Claw Controls
-            //bumper open, trigger close
-            
-                leftBumperGo = gamepad2.left_bumper;
-            
-            if (gamepad2.left_trigger > 0) {
-                leftTriggerGo = true;
-            }
-            //claw !!!
-            /*
-            if (leftBumperGo) {
-                clawRight.setPosition(myOpen);
-                clawLeft.setPosition(myOpen);
-            } else if (leftTriggerGo) {
-                clawRight.setPosition(myClosed);
-                clawLeft.setPosition(myClosed);
-            } else {
-                clawRight.setPosition(clawRight.getCurrentPosition()); //dunno if this is the right command
-                clawLeft.setPosition(clawLeft.getCurrentPosition())
-            } */
 
+/*
             //elevator 
             robot.elevatorMotor.setPower(deadband(gamepad2.right_stick_y , .03));
 
             //intake
             if (gamepad2.right_trigger > 0) {
-                intakeMotor.setSpeed(-.7);
+                intakeMotor.setPower(-.7);
             } else if (gamepad2.right_bumper) {
-                intakeMotor.setSpeed(.7);
+                intakeMotor.setPower(.7);
             } else {
-                intakeMotor.setSpeed(0);
-            }
-
-            //foundation
-            /*
-            if(gamepad2.dpad_up) {
-                //FINISH THIS !!!!!!!!!!!!!!!!
-            } else if (gamepad2.dpad_up) {
-
+                intakeMotor.setPower(0);
             }
             */
-
-
+            
 
             telemetry.addData("Motor Power:", "(%.2f) (%.2f) (%.2f) (%.2f)", fl, fr, bl, br);
             telemetry.addData("Predicted Motor Speed:", "(%.2f) (%.2f) (%.2f) (%.2f)" , v1 * MOTOR_ADJUST, v2 * MOTOR_ADJUST, v3 * MOTOR_ADJUST, v4 * MOTOR_ADJUST);
-            telemetry.addData("Claw Servo Degrees:", "(%.2f)", robot.clawRight.getCurrentPosition);
-            telemetry.addData("Ticks moved :", "(%.2f)", robot.frontRight.getPosition());
+            //telemetry.addData("Claw Servo Degrees:", "(%.2f)", robot.clawRight.getCurrentPosition);
+            //telemetry.addData("Ticks moved :", "(%.2f)", robot.frontRight.getPosition());
             telemetry.update();
         }
     }
     
-    
-    
+        public void setAll(double power) { //set all motors to same speed, enter speed
+        frontLeft.setPower(power);
+        frontRight.setPower(power);
+        backLeft.setPower(power);
+        backRight.setPower(power);
+    }
 }
